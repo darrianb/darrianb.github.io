@@ -34,8 +34,8 @@ function renderUI() {
 
   var validWordsGroup = document.createElement('div');
 
-  let root = document.documentElement;
-  root.style.setProperty('--grid-size', SOLUTION.gridSize);
+  let htmlRoot = document.documentElement;
+  htmlRoot.style.setProperty('--grid-size', SOLUTION.gridSize);
 
   for (let i = 0; i < SOLUTION.gridSize; i++) {
     var row = document.createElement('div');
