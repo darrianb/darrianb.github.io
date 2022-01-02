@@ -1,0 +1,32 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "http-server",
+      "type": "shell",
+      "command": "http-server -c-1",
+      "options": {
+        "env": {
+          "PORT": "8080",
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "sass",
+      "type": "shell",
+      "command": "sass --watch src/styles/scss/style.scss public/styles/style.css",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

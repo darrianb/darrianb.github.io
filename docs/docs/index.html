@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+  <meta charset=utf-8>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boggle Solver</title>
+  <script type="application/javascript" src="scripts/index.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Source+Serif+Pro:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body class="p-4">
+  <main class="container-md">
+    <h1 class="text-center">Boggle Solver</h1>
+    <form autocomplete="off" id="board-form" onsubmit="return validateForm()">
+      <div class="row g-3">
+        <div class="col">
+          <input required type="text" pattern="/^[a-zA-Z\,\ \+\|\-\n\;]+$/gm" class="form-control" id="board-input" name="board" placeholder="Enter a comma-separated list of letters" aria-label="board" oninput="validateBoardInput()">
+        </div>
+        <div class="col">
+          <span id="board-input-message"></span>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col">
+          <select class="form-select" name="grid" id="grid-size-input" aria-label="Grid size">
+            <option value="3">3x3</option>
+            <option value="4">4x4</option>
+            <option value="5">5x5</option>
+            <option value="6">6x6</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <input type="submit" class="btn btn-primary" value="Submit"></input>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-secondary" onclick="generateRandomBoard()">Randomize</button>
+        </div>
+      </div>
+    </form>
+    <p id="current-board-input"></p>
+    <div class="mb-4">
+      <div class="boggle-board p-1 rounded" id="boggle-board">
+      </div>
+    </div>
+    <div class="valid-words justify-content-center">
+      <div class="row">
+        <div class="col-auto">
+          <h2>Valid Words</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="list-group-flush" id="valid-words-list">
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    const letterCountCollapses = [];
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.valid-words .collapse').forEach(collapse => {
+        newCollapse = new bootstrap.Collapse(collapse, {
+          toggle: false
+        });
+        letterCountCollapses.push(newCollapse);
+      });
+    });
+    function showWords(letterCount) {
+      letterCountCollapses.forEach(collapse => {
+        if (collapse._element.id != "collapse" + letterCount) {
+          collapse.hide();
+        } else {
+          collapse.show();
+        }
+      });
+    }
+    function showInputCount(e) {
+      const input = e.target;
+      const inputCount = input.value.length;
+      const inputCountElement = document.getElementById("input-count");
+      inputCountElement.innerHTML = inputCount;
+    }
+
+    function validateBoardInput() {
+      var boardValidatorResult = validateBoard(document.getElementById("board-input").value);
+      if (boardValidatorResult?.board?.length) {
+
+      }
+    }
+
+    var input = document.getElementById("board-input").value;
+
+    function handleSubmit() {
+      var validator = validateBoard(input);
+      if (validator?.board?.length) {
+        if (validator.board?.length) {
+          main(validator.board);
+        } else {
+          input.
+          input.setCustomValidity(validator.errors.join('\n'));
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
