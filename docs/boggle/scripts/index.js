@@ -25,7 +25,7 @@ function renderUI() {
 
   boggleBoardInput.value = SOLUTION.board.join(',');
 
-  SOLUTION.validWordArray.forEach(word => {
+  SOLUTION.validWordArray.forEach(function (word) {
     var li = document.createElement('li');
     li.classList.add('list-group-item');
     li.innerText = word;
@@ -154,19 +154,21 @@ function solveBoard(boardInput, wordList, minLength = 3) {
     boardMatrix.push(row);
   }
 
-  // console.log(boardMatrix.map(row => row.join(" ")).join("\n"));
+  /* console.log(boardMatrix.map(function (row) {
+      return row.join(" ")
+    }).join("\n")); */
 
   for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j < gridSize; j++) {
       let word = "";
-      let visited = Array(gridSize).fill().map(() => Array(gridSize).fill(false));
+      let visited = Array(gridSize).fill().map(function () { return Array(gridSize).fill(false) });
       continueWord([i, j], visited, word);
     }
   }
 
   let validWordArray = Array.from(validWordSet);
-  validWordArray.sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0));
-  validWordArray.sort((a, b) => b.length - a.length);
+  validWordArray.sort(function (a, b) { return a.charCodeAt(0) - b.charCodeAt(0) });
+  validWordArray.sort(function (a, b) { return b.length - a.length });
 
   let runtimeSeconds = (Date.now() - startRuntime) / 1000;
   output = {
@@ -244,7 +246,7 @@ function solveBoard(boardInput, wordList, minLength = 3) {
 
     result[0] = {
       name: "Length Minus 3",
-      score: (() => {
+      score: (function () {
         let score = 0;
         for (let word of words) {
           var points = 0;
@@ -261,7 +263,7 @@ function solveBoard(boardInput, wordList, minLength = 3) {
 
     result[6] = {
       name: "Super Big Boggle (6x6)",
-      score: (() => {
+      score: (function () {
         let score = 0;
         for (let word of words) {
           var points = 0;
@@ -284,7 +286,7 @@ function solveBoard(boardInput, wordList, minLength = 3) {
 
     result[4] = {
       name: "Standard Boggle",
-      score: (() => {
+      score: (function () {
         let score = 0;
         for (let word of words) {
           var points = 0;
@@ -333,14 +335,14 @@ function solveBoard(boardInput, wordList, minLength = 3) {
  ******************************************************************************/
 
 const delimiters = [",", " ", "+", "|", "-", "\n", ";"];
-const delimitersString = delimiters.map(char => '\\' + char).join('');
+const delimitersString = delimiters.map(function (char) { return '\\' + char }).join('');
 const delimitersRegex = new RegExp('[' + delimitersString + ']', 'g');
 const boardRegex = new RegExp('^[a-zA-Z#' + delimitersString + ']+$', 'gm');
 
 function validateBoard(boardInput) {
   console.log('Validating Board', boardInput);
   const validGridSizes = [3, 4, 5, 6];
-  const validBoardLengths = validGridSizes.map(size => size * size);
+  const validBoardLengths = validGridSizes.map(function (size) { return size * size });
   const result = {
     "status": "validatingBoard",
     "messages": [],
@@ -375,7 +377,9 @@ function validateBoard(boardInput) {
     case "object":
       if (Array.isArray(boardInput)) {
         if (boardInput.length) {
-          if (boardInput.every(letter => letter.match(/^[A-Za-z#▄]+$/m))) {
+          if (boardInput.every(function (letter) {
+            return letter.match(/^[A-Za-z#▄]+$/m);
+          })) {
             board = boardInput;
           } else {
             result.errors.push("Invalid characters detected in board parameter.");
@@ -395,7 +399,9 @@ function validateBoard(boardInput) {
 
   if (board.length) {
     if (validBoardLengths.includes(board.length)) {
-      result.board = board.map(letter => letter.toUpperCase());
+      result.board = board.map(function (letter) {
+        return letter.toUpperCase()
+      });
     } else {
       result.errors.push(`invalid number of cells in board parameter. ${boardInput.length} cells found. Valid boardInput lengths are: ${validBoardLengths.join(", ")}.`);
     }
@@ -405,7 +411,9 @@ function validateBoard(boardInput) {
     result.messages.push('Successfully parsed board parameter!', JSON.stringify(result.board));
     result.status = "validateBoard: Success";
   } else {
-    result.messages.push('Failed to parse board parameter.', result.errors.map((err, index) => `Error ${index}: ${err}`).join('\n'));
+    result.messages.push('Failed to parse board parameter.', result.errors.map(function (err, index) {
+      return (`Error ${index}: ${err}`);
+    }).join('\n'));
     result.status = "validateBoard: Failed";
   }
   return result;
